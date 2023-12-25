@@ -2,9 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { BookType } from "../types/type";
+
+type BookProps = {
+  book: BookType;
+};
 
 // eslint-disable-next-line react/display-name
-const Book = ({ book }: any) => {
+const Book = ({ book }: BookProps) => {
   return (
     <>
       {/* アニメーションスタイル */}
@@ -28,7 +33,7 @@ const Book = ({ book }: any) => {
         <a className="cursor-pointer shadow-2xl duration-300 hover:translate-y-1 hover:shadow-none">
           <Image
             priority
-            src={book.thumbnail}
+            src={book.tumbnail.url}
             alt={book.title}
             width={450}
             height={350}

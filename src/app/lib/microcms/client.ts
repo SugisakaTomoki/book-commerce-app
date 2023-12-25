@@ -1,4 +1,5 @@
 // microCMSのJavascript SDKからcreateClient関数をインポート
+import { BookType } from "@/app/types/type";
 import { createClient } from "microcms-js-sdk";
 
 // microCMSに接続するためのクライアントを生成し、エクスポート
@@ -12,7 +13,7 @@ export const client = createClient({
 // 全ての本を取得する関数を定義
 export const getAllBooks = async () => {
   // microCMSのエンドポイント"bookcommerce"から本のリストを取得
-  const allBooks = await client.getList({
+  const allBooks = await client.getList<BookType>({
     endpoint: "bookcommerce",
   });
   //   取得した本のリストを返す
