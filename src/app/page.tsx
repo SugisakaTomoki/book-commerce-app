@@ -53,9 +53,14 @@ import { BookType } from "./types/type";
 // ];
 
 // eslint-disable-next-line @next/next/no-async-client-component
+
+// Homeページの関数コンポーネント
 export default async function Home() {
+  // 書籍データを非同期で取得
   const { contents } = await getAllBooks();
   // console.log(contents);
+
+  // JSXのレンダリング
   return (
     <>
       <main className="flex flex-wrap justify-center items-center md:mt-32 mt-20">
