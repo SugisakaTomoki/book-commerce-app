@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 // POSTメソッドのハンドラ関数
 export async function POST(request: Request, response: Response) {
   // リクエストからJSONデータを解析して、titleとpriceを取得
-  const { title, price } = await request.json();
+  const { title, price, bookId, userId } = await request.json();
   console.log(title, price);
 
   try {
@@ -15,6 +15,13 @@ export async function POST(request: Request, response: Response) {
     const session = await stripe.checkout.sessions.create({
       // カードが利用可能な支払方法を指定
       payment_method_types: ["card"],
+      //   メタデータの設定：本のIDをメタデータとして含める
+      metadata: {
+        bookId: bookId,
+      },
+      //   クライアント参照ID:ユーザーIDをクライアント参照IDとして指定
+      client_reference_id: userId,
+      //   購入アイテムの設定
       line_items: [
         {
           price_data: {
