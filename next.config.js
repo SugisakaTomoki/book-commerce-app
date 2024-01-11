@@ -12,6 +12,8 @@ const nextConfig = {
       },
     ],
   },
+  // useEfectのデフォルトである、2回発火を防ぐ
+  reactStrictMode: false,
 };
 
 module.exports = nextConfig;

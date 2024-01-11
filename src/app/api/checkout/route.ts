@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// stripeApiと通信を行うためのStrippeインスタンスの作成
+// stripeApiと通信を行うためのStripeインスタンスの作成
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 // POSTメソッドのハンドラ関数
@@ -41,7 +41,7 @@ export async function POST(request: Request, response: Response) {
     // sessionプロパティを持つオブジェクトを返す
     return NextResponse.json({ checkout_url: session.url });
 
-    // nextjsのnextresponseクラスを使用して、JSON形式のエラーレスポンスをクライアントに返している
+    // nextjsのNextResponseクラスを使用して、JSON形式のエラーレスポンスをクライアントに返している
   } catch (err: any) {
     return NextResponse.json(err.message);
   }

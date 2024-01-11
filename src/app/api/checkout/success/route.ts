@@ -18,17 +18,17 @@ export async function POST(request: Request, response: Response) {
     // Prisma の findFirst メソッドを使用して、purchase モデルからデータを検索
     // このメソッドは条件に一致する最初のレコードを取得
     // where: { ... }: 検索条件を指定するためのオプション
-    const existingPurchase = prisma.purchase.findFirst({
-      where: {
-        // ユーザーIDに基づいて検索
-        userId: session.client_reference_id,
-        // 本のIDに基づいて検索(メタデータを使用)
-        bookId: session.metadata?.bookId!,
-      },
-    });
+    // const existingPurchase = prisma.purchase.findFirst({
+    //   where: {
+    //     // ユーザーIDに基づいて検索
+    //     userId: session.client_reference_id,
+    //     // 本のIDに基づいて検索(メタデータを使用)
+    //     bookId: session.metadata?.bookId!,
+    //   },
+    // });
 
     // 既存の購入履歴が存在しない場合
-    if (!existingPurchase) {
+    if (true) {
       // Prismaを使用して購入履歴をデータベースに保存
       const purchase = await prisma.purchase.create({
         data: {

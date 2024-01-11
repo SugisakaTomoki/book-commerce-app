@@ -59,7 +59,6 @@ const Book = ({ book }: BookProps) => {
       if (responseData) {
         router.push(responseData.checkout_url);
       }
-      console.log(response);
     } catch (err) {
       console.error(err);
     }

@@ -50,7 +50,7 @@ model User {
   purchases Purchase[]
 }
 
-model Purchase{
+model Purchase {
   id String @id @default(cuid())
   userId String
   bookId String
