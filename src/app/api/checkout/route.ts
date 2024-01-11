@@ -35,7 +35,7 @@ export async function POST(request: Request, response: Response) {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:3000/book/checkout-success?session_id={CHEKOUT_SESSION_ID}`,
+      success_url: `http://localhost:3000/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: "http://localhost:3000",
     });
     // sessionプロパティを持つオブジェクトを返す

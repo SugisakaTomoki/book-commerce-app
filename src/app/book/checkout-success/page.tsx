@@ -1,7 +1,42 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const PurchaseSuccess = () => {
+  // URLのクエリパラメーターを取得
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get("session_id");
+
+  // console.log(sessionId);
+
+  // コンポーネントがマウントされたときに実行される副作用フック
+  useEffect(() => {
+    // セッションIDが存在する場合のデータ取得関数
+    const fetchData = async () => {
+      if (sessionId) {
+        try {
+          console.log(sessionId);
+          // サーバーサイドのAPIエンドポイントにPOSTリクエストを送信
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/checkout/success`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessionId }),
+            }
+          );
+          console.log(res.json());
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    // fetchData関数の実行
+    fetchData();
+  }, []);
+
   return (
     <div className="flex items-center justify-center mt-20">
       <div className="bg-white p-6 rounded-lg shadow-lg">

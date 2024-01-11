@@ -24,11 +24,13 @@ const Book = ({ book }: BookProps) => {
 
   // 取得したユーザーセッションからユーザーオブジェクトを抽出
   // セッションオブジェクトに、userプロパティが存在する場合
-  const user = session?.user;
+  const user: any = session?.user;
 
   // useRouterを使用してルーターを取得
   const router = useRouter();
 
+  console.log(user?.id);
+  console.log(book.id);
   // 関数startCheckoutの定義
   const startCheckout = async () => {
     try {
@@ -42,11 +44,13 @@ const Book = ({ book }: BookProps) => {
           // POSTメソッドを使用してデータを送信
           method: "POST",
           // リクエストヘッダーに、JSONコンテンツを指定
-          headers: { "Content-type": "application/json" },
+          headers: { "Content-Type": "application/json" },
           // JSON形式で送信するデータ
           body: JSON.stringify({
             title: book.title,
             price: book.price,
+            userId: user?.id,
+            bookId: book.id,
           }),
         }
       );
@@ -55,6 +59,7 @@ const Book = ({ book }: BookProps) => {
       if (responseData) {
         router.push(responseData.checkout_url);
       }
+      console.log(response);
     } catch (err) {
       console.error(err);
     }
