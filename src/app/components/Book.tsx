@@ -10,12 +10,13 @@ import { useRouter } from "next/navigation";
 // Bookコンポーネントのプロップスの型定義
 type BookProps = {
   book: BookType;
+  isPurchased: boolean;
 };
 
 // eslint-disable-next-line react/display-name
 
 // Bookコンポーネントの実装
-const Book = ({ book }: BookProps) => {
+const Book = ({ book, isPurchased }: BookProps) => {
   // モーダルの表示状態を管理するState
   const [showModal, setShowModal] = useState(false);
 
@@ -29,8 +30,8 @@ const Book = ({ book }: BookProps) => {
   // useRouterを使用してルーターを取得
   const router = useRouter();
 
-  console.log(user?.id);
-  console.log(book.id);
+  // console.log(user?.id);
+  // console.log(book.id);
   // 関数startCheckoutの定義
   const startCheckout = async () => {
     try {
@@ -66,7 +67,11 @@ const Book = ({ book }: BookProps) => {
 
   // 購入ボタンがクリックされた時の処理
   const handlePurchaseClick = () => {
-    setShowModal(true);
+    if (isPurchased) {
+      alert("その商品は購入済みです");
+    } else {
+      setShowModal(true);
+    }
   };
 
   // キャンセルボタンがクリックされた時の処理
