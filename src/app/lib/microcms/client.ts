@@ -19,3 +19,16 @@ export const getAllBooks = async () => {
   //   取得した本のリストを返す
   return allBooks;
 };
+
+// この関数は、指定されたコンテンツIDに基づいて、MicroCMSから詳細な書籍情報を取得するためのもの
+export const getDetailBook = async (contentId: string) => {
+  // MicroCMSのクライアント（APIを操作するためのクライアント）を使用して、指定されたエンドポイント（"ebook"）の詳細な書籍情報を取得します。
+  const detailBook = await client.getListDetail<BookType>({
+    // MicroCmsのエンドポイント名
+    endpoint: "bookcommerce",
+    // 取得したい書籍のコンテンツID
+    contentId,
+  });
+  // 取得した詳細な書籍情報を呼び出しもとに返す
+  return detailBook;
+};
