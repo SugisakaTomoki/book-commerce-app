@@ -16,6 +16,8 @@ export const getAllBooks = async () => {
   const allBooks = await client.getList<BookType>({
     endpoint: "bookcommerce",
   });
+
+  console.log(allBooks);
   //   取得した本のリストを返す
   return allBooks;
 };
