@@ -29,16 +29,7 @@ const Header = async () => {
             {user ? "プロフィール" : "ログイン"}
           </Link>
           {/* ユーザーが存在している場合、ログアウトボタンを押すとログインページに遷移する */}
-          {user ? (
-            <button
-              // onClick={() => signOut({ callbackUrl: "/login" })}
-              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >
-              ログアウト
-            </button>
-          ) : (
-            ""
-          )}
+
           <Link href={`/profile`}>
             <Image
               width={50}
