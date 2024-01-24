@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(request: Request, response: Response) {
   // リクエストからJSONデータを解析して、titleとpriceを取得
   const { title, price, bookId, userId } = await request.json();
-  console.log(title, price);
+  console.log(title, price, bookId, userId);
 
   try {
     // Stripe Checkoutセッションの作成
@@ -35,8 +35,8 @@ export async function POST(request: Request, response: Response) {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:3000/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: "http://localhost:3000",
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     });
     // sessionプロパティを持つオブジェクトを返す
     return NextResponse.json({ checkout_url: session.url });

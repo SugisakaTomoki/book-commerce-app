@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth/options";
-import { User } from "../types/types";
+import { User } from "../types/type";
 
 const Header = async () => {
   const session = await getServerSession(nextAuthOptions);

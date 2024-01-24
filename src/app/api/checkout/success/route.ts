@@ -1,47 +1,48 @@
-import prisma from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// Stripeインスタンスの作成
+// stripeApiと通信を行うためのStripeインスタンスの作成
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-// 購入履歴の保存
+// POSTメソッドのハンドラ関数
 export async function POST(request: Request, response: Response) {
-  // リクエストからセッションIDを取得
-  const { sessionId } = await request.json();
+  // リクエストからJSONデータを解析して、titleとpriceを取得
+  const { title, price, bookId, userId } = await request.json();
+  console.log(title, price);
 
   try {
-    // Stripe Checkoutセッションの取得
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-
-    // 既存の購入履歴の検索
-    // Prisma の findFirst メソッドを使用して、purchase モデルからデータを検索
-    // このメソッドは条件に一致する最初のレコードを取得
-    // where: { ... }: 検索条件を指定するためのオプション
-    // const existingPurchase = prisma.purchase.findFirst({
-    //   where: {
-    //     // ユーザーIDに基づいて検索
-    //     userId: session.client_reference_id,
-    //     // 本のIDに基づいて検索(メタデータを使用)
-    //     bookId: session.metadata?.bookId!,
-    //   },
-    // });
-
-    // 既存の購入履歴が存在しない場合
-    if (true) {
-      // Prismaを使用して購入履歴をデータベースに保存
-      const purchase = await prisma.purchase.create({
-        data: {
-          userId: session.client_reference_id!,
-          bookId: session.metadata?.bookId!,
+    // Stripe Checkoutセッションの作成
+    const session = await stripe.checkout.sessions.create({
+      // カードが利用可能な支払方法を指定
+      payment_method_types: ["card"],
+      //   メタデータの設定：本のIDをメタデータとして含める
+      metadata: {
+        bookId: bookId,
+      },
+      //   クライアント参照ID:ユーザーIDをクライアント参照IDとして指定
+      client_reference_id: userId,
+      //   購入アイテムの設定
+      line_items: [
+        {
+          price_data: {
+            currency: "jpy",
+            product_data: {
+              name: title,
+            },
+            unit_amount: price,
+          },
+          quantity: 1,
         },
-      });
-      return NextResponse.json({ purchase });
-    } else {
-      // 既に購入済みの場合
-      return NextResponse.json({ message: "既に購入済みです" });
-    }
-  } catch (err) {
-    return NextResponse.json(err);
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3000/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: "http://localhost:3000",
+    });
+    // sessionプロパティを持つオブジェクトを返す
+    return NextResponse.json({ checkout_url: session.url });
+
+    // nextjsのNextResponseクラスを使用して、JSON形式のエラーレスポンスをクライアントに返している
+  } catch (err: any) {
+    return NextResponse.json(err.message);
   }
 }

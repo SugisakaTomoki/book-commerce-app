@@ -12,12 +12,12 @@ export async function GET(
   const userId = params.userId;
   try {
     // Prismaを使用してデータベースからuserIdに基づいて購入履歴を取得
-    const purchase = await prisma.purchase.findMany({
+    const purchases = await prisma.purchase.findMany({
       where: { userId: userId },
     });
-    console.log(purchase);
+    // console.log(purchase);
     // 購入履歴をJSON形式でレスポンス
-    return NextResponse.json(purchase);
+    return NextResponse.json(purchases);
     // エラーが発生した場合、エラーメッセージをJSON形式でレスポンス
   } catch (err) {
     return NextResponse.json(err);
