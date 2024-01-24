@@ -11,13 +11,14 @@ export default async function Home() {
   // 書籍データを非同期で取得
   const { contents } = await getAllBooks();
   const session = await getServerSession(nextAuthOptions);
-  const user: User = session?.user as User;
+  const user = session?.user as User;
 
-  let purchaseBookIds: string;
+  let purchaseBookIds: string[] = [];
 
   if (user) {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
+      `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
+      { cache: "no-store" }
     );
     const purchasesData = await response.json();
     // console.log(purchasesData);
