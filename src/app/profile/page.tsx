@@ -34,13 +34,15 @@ export default async function ProfilePage() {
         <div className="flex items-center">
           <Image
             priority
-            src={user.image || "/default_icon.png"}
+            src={user?.image || "/default_icon.png"}
             alt="user profile_icon"
             width={60}
             height={60}
             className="rounded-t-md"
           />
-          <h2 className="text-lg ml-4 font-semibold">お名前：{user.name}</h2>
+          <h2 className="text-lg ml-4 font-semibold">
+            お名前：{user?.name || "未設定"}
+          </h2>
         </div>
       </div>
 
